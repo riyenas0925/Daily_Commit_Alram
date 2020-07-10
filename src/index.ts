@@ -1,6 +1,6 @@
 import {githubGraphQL} from './utils/githubGraphQL'
 
-const userId: string = 'riyenas0925';
+const userId: any = process.env.USER_ID;
 const todayDate: string = '2020-07-04T00:00:00Z';
 const query: string = `
 query {
