@@ -1,7 +1,8 @@
 import {githubGraphQL} from './utils/githubGraphQL'
+import {startDate} from './utils/timeStamp'
 
 const userId: any = process.env.USER_ID;
-const todayDate: string = '2020-07-04T00:00:00Z';
+const since: string = startDate().toISOString();
 const query: string = `
 query {
     user(login: "${userId}") {
@@ -15,7 +16,7 @@ query {
                             name
                             target {
                                 ... on Commit {
-                                    history(since: "${todayDate}") {
+                                    history(since: "${since}") {
                                         totalCount
                                     }
                                 }
