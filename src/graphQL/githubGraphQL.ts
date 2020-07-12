@@ -10,5 +10,5 @@ export const githubGraphQL = async(query: string) => {
         }
     });
 
-    console.log(JSON.stringify(response.data, null, 2));
+    return response.data;
 };
