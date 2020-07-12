@@ -1,33 +1,16 @@
-import {githubGraphQL} from './utils/githubGraphQL'
+import {githubGraphQL} from './graphQL/githubGraphQL'
 import {startDate} from './utils/timeStamp'
+import {todayCommitCount, userDetails} from './graphQL/query'
 
-const userId: any = process.env.USER_ID;
-const since: string = startDate().toISOString();
-const query: string = `
-query {
-    user(login: "${userId}") {
-        repositories(last: 100, orderBy: {field: PUSHED_AT, direction: DESC}) {
-            totalCount
-            nodes {
-                name
-                refs(first: 100, refPrefix: "refs/heads/", after: "") {
-                    edges {
-                        node {
-                            name
-                            target {
-                                ... on Commit {
-                                    history(since: "${since}") {
-                                        totalCount
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-`;
+(async () => {
+    const userId: any = process.env.USER_ID;
+    const since: string = startDate().toISOString();
 
-console.log(githubGraphQL(query));
+    const response1 = await githubGraphQL(userDetails());
+    console.log(response1);
+
+    const response2 = await githubGraphQL(todayCommitCount(userId, since));
+    console.log(response2);
+})().catch(e => {
+    console.error(e);
+});
