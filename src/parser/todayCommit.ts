@@ -1,19 +1,25 @@
-import { report } from "process";
-
 export const todayCommitParser = (json: any) => {
-    let repositories = json.data.user.repositories.nodes;
+    let repositoryMap : any = new Map<string, object>();
 
-    repositories.forEach( (repository: any) => {
+    json.data.user.repositories.nodes.forEach((repository: any) => {
+        let branchMap = new Map<string, object>();
+
         repository.refs.edges.forEach((edge: any) => {
             const branchName = edge.node.name;
             const commitCount = edge.node.target.history.totalCount;
 
             if(commitCount > 0) {
-                console.log(repository.name);
-                console.log(branchName + ' : ' + commitCount);
+                let commitList = new Set<string>();
+
+                edge.node.target.history.nodes.forEach((node: any) => {
+                    commitList.add('msg : ' +  node.messageHeadline + ', date : ' + node.committedDate + ', url : ' + node.commitUrl);
+                });
+
+                branchMap.set(branchName, commitList);
+                repositoryMap.set(repository.name, branchMap);
             }
         });
     });
 
-    return JSON.stringify(json, null, 2);
+    return repositoryMap;
 }
