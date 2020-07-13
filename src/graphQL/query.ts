@@ -13,6 +13,11 @@ export const todayCommitCount = (userId: string, since: string) => {
                                 target {
                                     ... on Commit {
                                         history(since: "${since}") {
+                                            nodes {
+                                                commitUrl
+                                                messageHeadline
+                                                committedDate
+                                            }
                                             totalCount
                                         }
                                     }
