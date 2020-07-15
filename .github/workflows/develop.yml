@@ -30,3 +30,5 @@ jobs:
       env:
         USER_ID: ${{ github.actor }} 
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        NODEMAILER_USER: ${{ secrets.NODEMAILER_USER }}
+        NODEMAILER_PASS: ${{ secrets.NODEMAILER_PASS }}

@@ -32,15 +32,3 @@ export const todayCommitCount = (userId: string, since: string) => {
 
     return query;
 }
-
-export const userDetails = () => {
-    const query: string = `
-    query { 
-        viewer { 
-            login
-            email
-        }
-    }`
-
-    return query;
-}
